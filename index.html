@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <header>
+                <h1>Weather Dashboard</h1>
+            </header>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <form id="user-form" class="card-body">
+                    <label class="form-label" for="username">enter city</label>
+                    <input name="username" id="username" type="text" autofocus="true" class="form-input" />
+                    <button type="submit" class="btn" id="searchBtn">Search</button>
+                </form>
+                <div>
+                    <h3>cities history</h3>
+                    <div id="cities-history"></div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <h3>current city</h3>
+                    <div id="current-city">
+                    <p id="main-weather"></p>
+                    <p id="temperature"></p>
+                    <p id="humidity"></p>
+                    <p id="wind-speed"></p>
+                    <p id="UVindex"></p>
+                    </div>
+                </div>
+                <div class="row">5-day forecast</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="assets/script.js"></script>
+</body>
+
+</html>

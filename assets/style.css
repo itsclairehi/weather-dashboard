@@ -1,0 +1,16 @@
+.col-md-4, .col-md-8, .col {
+    border: 1px solid black;
+}
+
+.container {
+    border: 1px solid black;
+}
+
+.row {
+    border: 1px solid blue;
+}
+
+.btn {
+    border: 1px solid pink;
+    background-color: plum;
+}
