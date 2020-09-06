@@ -14,3 +14,11 @@
     border: 1px solid pink;
     background-color: plum;
 }
+
+#forecast {
+    justify-content: space-around;
+}
+
+.history {
+    background-color: gainsboro;
+}
