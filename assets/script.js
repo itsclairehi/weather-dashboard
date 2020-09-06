@@ -109,6 +109,11 @@ var renderHistory = function () {
     for (i = 0; i < historyArr.length; i++) {
         var pastCity = historyArr[i]
         var pastCityEl = $("<button>").text(pastCity).addClass("col-12 btn")
+        pastCityEl.on("click", function(){
+            console.log("Hello");
+            
+        }) 
+
         $("#cities-history").append(pastCityEl)
     }
 }
