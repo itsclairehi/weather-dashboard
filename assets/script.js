@@ -65,8 +65,12 @@ var getUserCity = function (cityName) {
     var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=imperial`
     fetch(apiUrl)
         .then(function (response) {
-            return response.json();
+            if (response.ok & historyArr.length < 11) {
+                var newCity = $("<button>").text(cityName).addClass("col-12 btn")
+                $("#cities-history").append(newCity)
+            }
 
+            return response.json();
         })
         .then(function (data) {
             console.log("Current weather", data)
@@ -87,8 +91,6 @@ var getUserCity = function (cityName) {
 $("#searchBtn").on("click", function () {
     event.preventDefault()
     var cityName = $("#username").val()
-    // console.log(cityName);
-    // saveCity(cityName)
 
     if (historyArr.indexOf(cityName) === -1) {
         historyArr.push(cityName)
@@ -96,9 +98,9 @@ $("#searchBtn").on("click", function () {
 
         localStorage.setItem('history', JSON.stringify(historyArr))
     }
-    var newCity = $("<button>").text(cityName).addClass("col-12")
-    $("#cities-history").append(newCity)
+
     getUserCity(cityName)
+
 })
 
 
@@ -109,39 +111,24 @@ var renderHistory = function () {
     for (i = 0; i < historyArr.length; i++) {
         var pastCity = historyArr[i]
         var pastCityEl = $("<button>").text(pastCity).addClass("col-12 btn")
-        pastCityEl.on("click", function(){
-            console.log("Hello");
-            
-        }) 
 
         $("#cities-history").append(pastCityEl)
     }
 }
 
-var cityClick = function(){
 
-}
+//make history clickable
+$("#cities-history").on("click", "button", function () {
+    var cityFromHistory = $(this).text()
+    getUserCity(cityFromHistory)
+})
+
+//history clear button
+$("#clear-btn").on("click", function () {
+    localStorage.clear()
+    $("#cities-history").empty()
+})
 
 renderHistory()
 
 
-
-
-
-
-// getHistory()
-
-
-// var saveCity = function(cityName){
-//     if(history.indexOf(cityName) === -1){
-//         // save to local storage
-//         history.push(cityName)
-//         console.log(history)
-
-//         }
-//     localStorage.setItem('history', history)
-
-// }
-
-    //if history.length is more then 0 
-    //  -- loop through array and creta ethat list here 
