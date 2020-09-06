@@ -65,9 +65,15 @@ var getUserCity = function (cityName) {
     var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=imperial`
     fetch(apiUrl)
         .then(function (response) {
-            if (response.ok & historyArr.length < 11) {
+            if (response.ok & historyArr.indexOf(cityName) === -1 & historyArr.length < 11) {
                 var newCity = $("<button>").text(cityName).addClass("col-12 btn")
                 $("#cities-history").append(newCity)
+
+                historyArr.push(cityName)
+
+                localStorage.setItem('history', JSON.stringify(historyArr))
+            } else{
+                $("#forecast").empty()
             }
 
             return response.json();
@@ -91,13 +97,6 @@ var getUserCity = function (cityName) {
 $("#searchBtn").on("click", function () {
     event.preventDefault()
     var cityName = $("#username").val()
-
-    if (historyArr.indexOf(cityName) === -1) {
-        historyArr.push(cityName)
-        console.log(historyArr);
-
-        localStorage.setItem('history', JSON.stringify(historyArr))
-    }
 
     getUserCity(cityName)
 
