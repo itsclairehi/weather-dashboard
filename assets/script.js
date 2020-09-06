@@ -47,9 +47,9 @@ var getForecast = function (cityName) {
                 var date = $("<p>").text(justDate)
 
                 // var icon = filteredArr[i].weather.icon
-                var temp = $("<p>").text("Temp: "+filteredArr[i].main.temp + " F")
-                var humidity =$("<p>").text("Humidity: "+filteredArr[i].main.humidity + "%")
-                
+                var temp = $("<p>").text("Temp: " + filteredArr[i].main.temp + " F")
+                var humidity = $("<p>").text("Humidity: " + filteredArr[i].main.humidity + "%")
+
 
                 dayDiv.append(date, temp, humidity)
                 $("#forecast").append(dayDiv)
@@ -88,22 +88,36 @@ $("#searchBtn").on("click", function () {
     event.preventDefault()
     var cityName = $("#username").val()
     // console.log(cityName);
-// saveCity(cityName)
+    // saveCity(cityName)
 
-if(historyArr.indexOf(cityName) === -1){
-historyArr.push(cityName)
-console.log(historyArr);
+    if (historyArr.indexOf(cityName) === -1) {
+        historyArr.push(cityName)
+        console.log(historyArr);
 
-localStorage.setItem('history', JSON.stringify(historyArr))
-
-}
+        localStorage.setItem('history', JSON.stringify(historyArr))
+    }
+    var newCity = $("<button>").text(cityName).addClass("col-12")
+    $("#cities-history").append(newCity)
     getUserCity(cityName)
 })
 
 
 var historyArr = JSON.parse(localStorage.getItem('history')) || []
-console.log("historyArr "+historyArr);
+console.log("historyArr " + historyArr);
 
+var renderHistory = function () {
+    for (i = 0; i < historyArr.length; i++) {
+        var pastCity = historyArr[i]
+        var pastCityEl = $("<button>").text(pastCity).addClass("col-12 btn")
+        $("#cities-history").append(pastCityEl)
+    }
+}
+
+var cityClick = function(){
+
+}
+
+renderHistory()
 
 
 
@@ -118,7 +132,7 @@ console.log("historyArr "+historyArr);
 //         // save to local storage
 //         history.push(cityName)
 //         console.log(history)
-        
+
 //         }
 //     localStorage.setItem('history', history)
 
