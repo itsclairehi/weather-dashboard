@@ -39,7 +39,7 @@ var getForecast = function (cityName) {
 
             //loop thru array and make element, append
             for (i = 0; i < filteredArr.length; i++) {
-                var dayDiv = $("<div>").addClass("card")
+                var dayDiv = $("<div>").addClass("card day")
 
                 //get just date from data WORK ON THIS
                 var dateTime = filteredArr[i].dt_txt.split(" ")
@@ -87,16 +87,42 @@ var getUserCity = function (cityName) {
 $("#searchBtn").on("click", function () {
     event.preventDefault()
     var cityName = $("#username").val()
-    console.log(cityName);
+    // console.log(cityName);
+// saveCity(cityName)
 
+if(historyArr.indexOf(cityName) === -1){
+historyArr.push(cityName)
+console.log(historyArr);
+
+localStorage.setItem('history', JSON.stringify(historyArr))
+
+}
     getUserCity(cityName)
 })
 
-//get local storagefunction
-//if(historyarr.indexOf(cityName) === -1){
-//save to local storage
 
-var history = localStorage.getItem('history') || [];
+var historyArr = JSON.parse(localStorage.getItem('history')) || []
+console.log("historyArr "+historyArr);
+
+
+
+
+
+
+
+// getHistory()
+
+
+// var saveCity = function(cityName){
+//     if(history.indexOf(cityName) === -1){
+//         // save to local storage
+//         history.push(cityName)
+//         console.log(history)
+        
+//         }
+//     localStorage.setItem('history', history)
+
+// }
 
     //if history.length is more then 0 
     //  -- loop through array and creta ethat list here 
