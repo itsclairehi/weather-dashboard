@@ -1,18 +1,7 @@
-.col-md-4, .col-md-8, .col {
-    border: 1px solid black;
-}
-
-.container {
-    border: 1px solid black;
-}
-
-.row {
-    border: 1px solid blue;
-}
-
 .btn {
     border: 1px solid pink;
     background-color: plum;
+    
 }
 
 #forecast {
@@ -25,5 +14,27 @@
 
 .day {
     background-color: deepskyblue;
+    border: 1px solid cornflowerblue
 }
 
+#user-form {
+    display: flex;
+    justify-content: center;
+}
+
+#current-city {
+    background-color: cornsilk;
+    width: 100%;
+    
+}
+p, h2{
+    margin: 1rem;
+}
+
+header {
+    background-color: gray;
+}
+
+div, header{
+    border-radius: 5px;
+}

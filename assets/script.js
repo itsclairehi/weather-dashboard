@@ -7,11 +7,27 @@ var getUvIndex = function (data) {
     var apiUrl = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`
     fetch(apiUrl)
         .then(function (response) {
-            console.log(response)
             return response.json()
         })
         .then(function (data) {
+            var uvIndexNum = data.value
             var uvIndex = $("<p>").text("UV index: " + data.value)
+            uvIndex.css("width", "fit-content")
+            
+            //uv color indication
+            if (uvIndexNum <= 2) {
+                uvIndex.css("background-color", "lightgreen")
+            } else if (uvIndexNum <= 5) {
+                uvIndex.css("background-color", "yellow")
+            } else if (uvIndexNum <= 7) {
+                uvIndex.css("background-color", "orange")
+            } else if (uvIndexNum <= 10) {
+                uvIndex.css("background-color", "red")
+                uvIndex.css("color", "white")
+            } else {
+                uvIndex.css("background-color", "purple")
+                uvIndex.css("color", "white")
+            }
             $("#current-city").append(uvIndex)
         })
 }
@@ -23,7 +39,6 @@ var getForecast = function (cityName) {
             return response.json()
         })
         .then(function (data) {
-            console.log('forecast', data.list)
             var arr = data.list;
             var filteredArr = arr.filter(function (i) {
                 var time = i.dt_txt;
@@ -33,7 +48,6 @@ var getForecast = function (cityName) {
                 }
 
             })
-            console.log('new arr', filteredArr)
 
             $("#forecast").empty()
 
@@ -46,18 +60,17 @@ var getForecast = function (cityName) {
                 var justDate = dateTime[0]
                 var date = $("<p>").text(justDate)
 
-                // var icon = filteredArr[i].weather.icon
                 var temp = $("<p>").text("Temp: " + filteredArr[i].main.temp + " F")
                 var humidity = $("<p>").text("Humidity: " + filteredArr[i].main.humidity + "%")
+                var icon = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + filteredArr[i].weather[0].icon + "@2x.png")
 
-
-                dayDiv.append(date, temp, humidity)
+                dayDiv.append(date, icon, temp, humidity)
                 $("#forecast").append(dayDiv)
-
             }
 
             //call get uv index function
             getUvIndex(data)
+
         })
 }
 
@@ -65,21 +78,29 @@ var getUserCity = function (cityName) {
     var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=imperial`
     fetch(apiUrl)
         .then(function (response) {
-            if (response.ok & historyArr.indexOf(cityName) === -1 & historyArr.length < 11) {
+
+            if (response.ok & historyArr.indexOf(cityName) === -1) {
                 var newCity = $("<button>").text(cityName).addClass("col-12 btn")
                 $("#cities-history").append(newCity)
 
                 historyArr.push(cityName)
 
+                $("#forecast-title").append($("<p>").text("5-day forecast"))
                 localStorage.setItem('history', JSON.stringify(historyArr))
-            } else{
+
+            } else {
                 $("#forecast").empty()
+                $("#forecast-title").empty()
+            }
+
+            if (!response.ok) {
+                alert("Not a valid city")
             }
 
             return response.json();
         })
         .then(function (data) {
-            console.log("Current weather", data)
+
             $("#current-city").empty()
             var name = $("<h2>").text(data.name);
             var temp = $("<p>").text("Current Temperature: " + data.main.temp + " F");
@@ -93,19 +114,22 @@ var getUserCity = function (cityName) {
 }
 
 
-//button click
+//search button click
 $("#searchBtn").on("click", function () {
     event.preventDefault()
     var cityName = $("#username").val()
+
+    $("#forecast-title").empty()
+    $("#forecast-title").append($("<p>").text("5-day forecast"))
 
     getUserCity(cityName)
 
 })
 
-
+//load local storage for city history
 var historyArr = JSON.parse(localStorage.getItem('history')) || []
-console.log("historyArr " + historyArr);
 
+//make buttons out of city history
 var renderHistory = function () {
     for (i = 0; i < historyArr.length; i++) {
         var pastCity = historyArr[i]
@@ -120,6 +144,8 @@ var renderHistory = function () {
 $("#cities-history").on("click", "button", function () {
     var cityFromHistory = $(this).text()
     getUserCity(cityFromHistory)
+    // $("#forecast-title").empty()
+    $("#forecast-title").append($("<p>").text("5-day forecast"))
 })
 
 //history clear button
@@ -129,5 +155,3 @@ $("#clear-btn").on("click", function () {
 })
 
 renderHistory()
-
-

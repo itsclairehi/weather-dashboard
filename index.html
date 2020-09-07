@@ -11,17 +11,14 @@
 
 <body>
     <div class="container">
-        <div class="row">
-            <header>
+        <header class="row">
                 <h1>Weather Dashboard</h1>
-            </header>
-        </div>
+        </header>
 
         <div class="row">
             <div class="col-md-4">
                 <form id="user-form" class="card-body">
-                    <label class="form-label" for="username">enter city</label>
-                    <input name="username" id="username" type="text" autofocus="true" class="form-input" />
+                    <input name="username" id="username" type="text" autofocus="true" class="form-input" placeholder="city" />
                     <button type="submit" class="btn" id="searchBtn">Search</button>
                 </form>
                 <div class="history">
@@ -34,7 +31,7 @@
                 <div class="row">
                     <div id="current-city"></div>
                 </div>
-                <div class="row">5-day Forecast</div>
+                <div class="row" id="forecast-title"></div>
                 <div class="row" id="forecast"></div>
             </div>
         </div>
